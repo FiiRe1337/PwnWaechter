@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zabbix Template Generator – SSH + LLD</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="hero">
+      <div>
+        <div class="brand">
+          <div class="logo">Z</div>
+          <div>
+            <h1>Zabbix Template Generator</h1>
+            <p class="subtitle">Beschreibe, was überwacht werden soll. Die App erzeugt ein importfähiges YAML-Template mit SSH-Master-Items, Dependent Child-Items und Low-Level-Discovery.</p>
+          </div>
+        </div>
+      </div>
+      <div class="badge-row">
+        <span class="badge">SSH Agent</span>
+        <span class="badge">Dependent Items</span>
+        <span class="badge">LLD / Prototypen</span>
+        <span class="badge">Zabbix 6.4–7.4</span>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Was soll überwacht werden?</h2>
+        <div class="row-3">
+          <div>
+            <label for="templateName">Template-Name</label>
+            <input id="templateName" type="text" value="Linux by SSH generated">
+          </div>
+          <div>
+            <label for="zabbixVersion">Zabbix-Version</label>
+            <select id="zabbixVersion">
+              <option value="7.0" selected>7.0</option>
+              <option value="7.2">7.2</option>
+              <option value="7.4">7.4</option>
+              <option value="6.4">6.4</option>
+            </select>
+          </div>
+          <div>
+            <label for="groupName">Template-Gruppe</label>
+            <input id="groupName" type="text" value="Templates/Applications">
+          </div>
+        </div>
+
+        <label for="intent">Freitext (Module werden automatisch ergänzt)</label>
+        <textarea id="intent" placeholder="Beispiel: Linux-Server mit CPU, RAM, Dateisystemen, Nginx und Docker-Containern. SSH-Login per Key."></textarea>
+
+        <div style="margin-top:14px">
+          <label>Profile</label>
+          <div id="profiles" class="profiles"></div>
+        </div>
+
+        <label>Module</label>
+        <div id="modules" class="modules"></div>
+
+        <div class="row" style="margin-top:14px">
+          <div>
+            <label for="processes">Prozesse (Komma-getrennt, für LLD)</label>
+            <input id="processes" type="text" placeholder="sshd, nginx, dockerd, postgres">
+          </div>
+          <div>
+            <label for="interval">Standard-Intervall</label>
+            <input id="interval" type="text" value="1m">
+          </div>
+        </div>
+
+        <h2 style="margin-top:18px">SSH</h2>
+        <div class="row-3">
+          <div>
+            <label for="authtype">Authentifizierung</label>
+            <select id="authtype">
+              <option value="PUBLIC_KEY" selected>Public Key (empfohlen)</option>
+              <option value="PASSWORD">Passwort</option>
+            </select>
+          </div>
+          <div>
+            <label for="sshUser">SSH-User-Makro-Default</label>
+            <input id="sshUser" type="text" value="zabbix">
+          </div>
+          <div>
+            <label for="sshPort">SSH-Port</label>
+            <input id="sshPort" type="number" value="22">
+          </div>
+        </div>
+        <label style="display:flex;gap:8px;align-items:center;color:var(--text);margin:8px 0 14px">
+          <input id="cpuCores" type="checkbox"> CPU-Kerne per LLD als eigene Child-Items anlegen
+        </label>
+
+        <h2>Eigene SSH-Items</h2>
+        <div id="custom-list" class="custom-list"></div>
+        <div class="actions">
+          <button type="button" id="add-custom" class="btn-ghost">+ Eigenes Item</button>
+          <button type="button" id="generate" class="btn-primary">Template generieren</button>
+        </div>
+        <p class="hint" id="status"></p>
+      </section>
+
+      <section class="card">
+        <h2>Ergebnis</h2>
+        <div class="stats">
+          <div class="stat"><b id="s-items">0</b><span>Items (inkl. Master)</span></div>
+          <div class="stat"><b id="s-disc">0</b><span>Discovery Rules</span></div>
+          <div class="stat"><b id="s-proto">0</b><span>Item-Prototypen</span></div>
+          <div class="stat"><b id="s-trig">0</b><span>Trigger</span></div>
+        </div>
+        <div class="actions" style="margin-top:0;margin-bottom:12px">
+          <button type="button" id="download" class="btn-teal">YAML herunterladen</button>
+          <button type="button" id="copy" class="btn-ghost">Kopieren</button>
+          <button type="button" id="download-readme" class="btn-ghost">README</button>
+        </div>
+        <pre id="yaml">Klicke auf „Template generieren“.</pre>
+        <p class="hint">
+          Import in Zabbix: <code>Data collection → Templates → Import</code>.
+          Danach Host verlinken und <code>{$SSH.USER}</code> sowie Key-/Passwort-Makros setzen.
+          Child-Items entstehen automatisch über LLD, sobald das Master-JSON Daten liefert.
+        </p>
+        <h2 style="margin-top:18px">Kurz-Anleitung</h2>
+        <pre id="readme"></pre>
+      </section>
+    </div>
+
+    <footer>
+      Erzeugt YAML im offiziellen <code>zabbix_export</code>-Format. Kein Agent auf dem Zielhost nötig – alles über SSH.
+      Master-Items sammeln JSON, Dependent Items und Prototypen ziehen die Einzelwerte.
+    </footer>
+  </div>
+  <script src="catalog.js"></script>
+  <script src="yaml.js"></script>
+  <script src="generator.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{
+  "url": "http://127.0.0.1:8081/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "PwnWächter",
+      "hasCanvas": false,
+      "bodyTextLen": 792,
+      "bodyTextHash": "09a9dbcfd8fb79d205c3ae18d1fe3bc95547bddf0791d0d0d81aa3422c6e028a",
+      "bodyTextPrefix": "PwnWächter DC-Passwortfilter aktiv Übersicht Passwortwechsel Ide",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "PwnWächter",
+      "hasCanvas": false,
+      "bodyTextLen": 677,
+      "bodyTextHash": "4ae7242b23f8ecafd530661a6abc65161ed0b855ec8b20a946a05c3c565c1348",
+      "bodyTextPrefix": "PwnWächter DC01.adlerwerk.local DC01.ADLERWERK.LOCAL Domänenfilt",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-built.json",
+  "divergesFromBaseline": false,
+  "baselineReasons": []
+}

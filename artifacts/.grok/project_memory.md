@@ -1,0 +1,1 @@
+- Built Zabbix Template Generator app at artifacts/zabbix-template-generator/ (German UI, SSH master items, dependent child items, LLD). Start with python3 server.py on port 8765. [2026-08-26]
